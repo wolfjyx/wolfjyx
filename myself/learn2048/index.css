@@ -1,0 +1,66 @@
+body{
+	padding: 0;
+	margin: 0;
+	font-family: "Clear Sans", "Helvetica Neue", "微软雅黑",Arial, sans-serif;
+}
+header{
+	display: block;
+	width: 75%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+header h1{
+	color: red;
+	font-size: 3em;
+	margin: 0 0 0.4em 0;
+}
+
+header #newgame{
+	background-color:  #8f7a66;
+	padding:0.8em 1.2em;
+	border-radius: 0.25em;
+	text-decoration: none;
+	color: #ffffff;
+	letter-spacing: 0.1em;
+}
+header #newgame:hover{
+	background-color: #9f8b77;
+}
+
+header p{
+	font-size: 1.5em;
+	
+	margin: 0.8em 0 0 0;
+}
+
+
+
+.container{
+	width: 28.75em;
+	height: 28.75em;
+	margin:  0 auto;
+	padding: 1.25em;
+	background-color: #bbada0;
+	border-radius: 0.6em;
+	position: relative;
+}
+
+.brick{
+	width: 6.25em;
+	height: 6.25em;
+	background-color: #ccc0b3;
+	border-radius: 0.5em;
+    position: absolute;
+}
+
+.bricknumber{
+	
+	border-radius: 0.25em;
+	font-size: 2em;
+	line-height: 3.25em;
+	text-align: center;
+	position: absolute;
+}
+
+
