@@ -1,0 +1,8 @@
+img{
+	display: none;
+}
+#container{
+	margin: 0 auto;
+	width: 500px;
+	text-align: center;
+}
