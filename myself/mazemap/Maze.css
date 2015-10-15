@@ -1,0 +1,18 @@
+canvas {
+  border: 6px double black;
+  background: white;
+}
+
+img {
+  display: none;
+}
+
+button {
+  padding: 5px;
+  margin: 5px 5px;
+}
+
+div{
+	margin: 0 auto;
+	text-align: center;
+}
