@@ -1,0 +1,227 @@
+<!DOCTYPE >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>画图板</title>
+	<script src="js/jquery-1.js"></script>
+	<script src="js/alloyimage.js"></script>
+	<!--<script src="js/storage.js"></script>-->
+	<script src="js/function.js"></script>	
+	<!-- <link rel="stylesheet" type="text/css" href="css/reset.css"> -->
+	<link href="css/canvas.css" type="text/css" rel="stylesheet">	
+	
+</head>
+<body>
+		<!--画图工具-->
+		<div id="drawController">	
+			<img src="img/pencil.png" class="img border_choose" onclick="draw_graph('pencil',this)" title="铅笔" height="30px;" width="30px;"><br>
+			
+			<input id="chooseColor" class="i1 border_nochoose" onclick="showColor(this)" title="选择颜色" type="button"><br>
+			<div id="shape" class="img border_nochoose" onclick="showShapePattern(this)"><img  id="cahgnePattern"  src="img/line.png" height="30" width="30" alt="图形" title="图形"></div>
+			<div id = "shapePattern">
+			<img src="img/line.png" class="img border_nochoose" onclick="draw_graph('line',this),changePattern(this);" title="画直线" height="30px;" width="30px;">
+			<img src="img/square.png" class="img border_nochoose" onclick="draw_graph('square',this),changePattern(this)" title="方形" height="30px;" width="30px;">
+			<img src="img/circle.png" class="img border_nochoose" onclick="draw_graph('circle',this),changePattern(this)" title="圆" height="30px;" width="30px;">
+		</div>
+			<img id="chooseSize" src="img/line_size_1.png" class="img border_nochoose" onclick="showLineSize(this)" title="线条大小" height="30px;" width="30px;"><br>
+			<img src="img/handwriting.png" class="border_nochoose" onclick=" showPattern(this)" title="涂鸦" height="30px;" width="30px;"><br>
+			<img  class="img border_nochoose" src="img/mosaic.png"  height="30" width="30" alt="马赛克" title="马赛克" onclick="draw_graph('mosaic',this)" /><br>
+			<img src="img/rubber.png" id="rubber" class="img border_nochoose"  title="橡皮擦" height="30px;" width="30px;" onclick="draw_graph('rubber',this)"/><br>
+			<img src="img/cancel.png" class="img border_nochoose" onclick="cancel(this)" title="撤销上一个操作" height="30px;" width="30px;"><br>
+			<img src="img/next.png" class="img border_nochoose" onclick="next(this)" title="重做上一个操作" height="30px;" width="30px;"><br>
+			<img src="img/xx.png" class="img border_nochoose" onclick="clearContext('1')" title="清屏" height="30px;" width="30px;"><br>
+			<img src="img/save.png" class="img border_nochoose" onclick="save()" title="保存" height="30px;" width="30px;"><br>
+			<a href="#" download="picture.png" id="downloadImage_a">
+				<img src="img/download.png" class="img border_nochoose" title="下载" onclick="downloadImage();" height="30px;" width="30px;">
+			</a><br>
+			<!--滤镜-->
+		</div>
+		<div id="filter">
+			<span><img id="origin" class="filter_nochoose" src="img/e1.jpg" height="60" width="100" alt="原图效果" title="原图"/>原  图</span>
+		    <span><img id="spread" class="filter_nochoose" src="img/e2.jpg"  height="60" width="100" alt="油画效果" title="油画效果"/>油画效果</span>
+		     <span><img id="gray" class="filter_nochoose" src="img/e3.jpg"  height="60" width="100" alt="灰度效果" title="灰度效果"/>灰度效果</span>
+		     <span><img id="comic" class="filter_nochoose" src="img/e4.jpg"  height="60" width="100" alt="连环画效果" title="连环画效果"/>连环画效果</span>
+		    <span><img id="old" class="filter_nochoose" src="img/e5.jpg" height="60" width="100" alt="怀旧效果" title="怀旧效果"/>怀旧效果</span>
+		     <span><img id="negatives" class="filter_nochoose" src="img/e6.jpg"  height="60" width="100" alt="底片效果" title="底片效果"/>底片效果</span>
+		     <span><img id="black" class="filter_nochoose" src="img/e7.jpg"  height="60" width="100" alt="黑白效果" title="黑白效果"/>黑白效果</span>
+		     <span><img id="soften" class="filter_nochoose" src="img/e8.jpg"  height="60" width="100" alt="动漫效果" title="动漫效果"/>动漫效果</span>
+		     <span><img id="sketch" class="filter_nochoose" src="img/e9.jpg"  height="60" width="100" alt="素描效果" title="素描效果"/>素描效果</span>
+		  
+			    <form id="uf">
+			        <input type="file" name="file" id="up-button"/>
+			        <input type="button" id="button" value="上传图片"/>
+			        <!--<input type="button" id="download" value="download"/>-->
+			    </form>
+						<!-- <div id="line"></div>-->
+					</div>
+				<!--文字添加-->
+
+	<div id="text">
+		<input type="button" id="textButton" name="textButton" value="添加文字"  />
+    	
+    	
+    	<div id="textword" style="visibility:visible">
+
+    	<ul>
+    	 <li><label>文字1：</label><input type="text" id="title" class="long"placeholder="文字1" /></li>
+    	 <li><label>颜 色：</label><input type="button" id="titleFontColor" class="short"  onclick="showTextColor1(this)"/>&nbsp;
+    	 <label>字 体：</label><div class="select"><select id = "titleFontStyle" class="short"  name="titleFontStyle">
+    	        <option value="STXingkai">宋体</option> 
+				<option value="KaiTi">楷体</option>
+				<option value="SimHei">黑体</option>
+				<option value="FangSong">仿宋</option>
+				<option value="NSimSun">新宋体</option>
+				<option value="MingLiU">细明体</option>
+				<option value="Microsoft YaHei">微软雅黑</option>
+				<option value="PmingLiu">PmingLiu</option>
+				<option value="Impact">Impact</option>
+				<option value="Georgia">Georgia</option>
+				<option value="Verdana">Verdana</option>
+				<option value="Arial">Arial</option>
+				<option value="Book Antiqua">Book Antiqua</option>
+				<option value="Courier New">Courier New</option>
+				<option value="Times New Roman">Times New Roman</option>
+				</select>
+				</div>
+		</li>
+          <li><label>旋 转：</label><input type="text" id="titleRotate" class="short" value="0"  onclick="select(this)"/>&nbsp;
+          <label>字 号：</label><input type="text" id="titleFontSize" class="short" value="25"  onclick="select(this)"/></li>
+            <li><label>左偏移：</label><input type="text" id="titleLeft" class="short" value="10"  onclick="select(this)"/>&nbsp;
+                <label>顶偏移：</label><input type="text" id="titleTop" class="short" value="210"  onclick="select(this)"/></li>
+            </ul>
+
+            <ul>
+           <li><label>文字2：</label><input type="text" id="description" class="long" placeholder="文字2" /></li>
+            <li><label>颜 色：</label><input type="button" id="desFontColor" class="short"   onclick="showTextColor2(this)"/>&nbsp;
+            <label>字 体:</label><div class="select"><select id = "desFontStyle" class="short"  name="desFontStyle">
+    	         <option value="STXingkai">宋体</option> 
+				<option value="KaiTi">楷体</option>
+				<option value="SimHei">黑体</option>
+				<option value="FangSong">仿宋</option>
+				<option value="NSimSun">新宋体</option>
+				<option value="MingLiU">细明体</option>
+				<option value="Microsoft YaHei">微软雅黑</option>
+				<option value="PmingLiu">PmingLiu</option>
+				<option value="Impact">Impact</option>
+				<option value="Georgia">Georgia</option>
+				<option value="Verdana">Verdana</option>
+				<option value="Arial">Arial</option>
+				<option value="Book Antiqua">Book Antiqua</option>
+				<option value="Courier New">Courier New</option>
+				<option value="Times New Roman">Times New Roman</option>
+				</select>
+				</div>
+			</li>
+			<li><label>旋 转：</label><input type="text" id="desRotate" class="short" value="0"  onclick="select(this)"/>&nbsp;
+            <label>字 号：</label><input type="text" id="desFontSize" class="short" value="20"  onclick="select(this)"/></li>
+            <li><label>左偏移：</label><input type="text" id="desLeft" class="short" value="10"  onclick="select(this)"/>&nbsp;
+                <label>顶偏移：</label><input type="text" id="desTop" class="short" value="230"  onclick="select(this)"/></li>  
+
+            </ul> 
+				 <input  type="button" id="textConfirm" name ="textConfirm" value="确定"/>
+            </div>   
+              
+    </div>
+		<!--画布-->
+	<div id ="contain">
+		<div id="picWrapper"  style="left: 10px; top: 5px;">
+		<div class="divHead" id="divHead" style="cursor: move;"> </div> 
+			<canvas style="z-index: -2;" height="480" width="720" id="canvas">
+				浏览器不支持哦，亲
+			</canvas>
+
+			<canvas style="z-index: -1;" height="480" width="720" id="canvas_bak"></canvas>
+				<canvas style="z-index: -5;" height="480" width="720" id="picCanvas">
+			</canvas>
+			<canvas  height="480" width="720" id="textCanvas1">
+			</canvas>
+			<canvas height="480" width="720" id="textCanvas2">
+			</canvas>
+			<canvas style="z-index: -10;" height="480" width="720" id="combineCanvas">
+			</canvas>
+		
+		</div>
+	</div>
+
+	
+	    <!--绘画成果-->
+		<!-- <div id="showHistory">
+			<h2>绘画成果</h2>
+			<table style="font-size:12px;">
+				<tr>
+					<td><img src ="img/noimg.png"  width = '150px;' height = '150px;' id="history_1"/></td>
+				</tr>
+				<tr align="center">
+					<td><a href="javascript:void(0);" id="history_del_1">删除</a>&nbsp;
+					<a href="javascript:void(0);" id="history_download_1" download="picture.png">下载</a></td>
+				</tr>
+			
+			</table>
+		</div> -->
+
+		<!--涂鸦图案选择-->
+		<div id="pattern">
+			<input type="button" onclick="draw_graph('handwriting_circle',this)" value="圆形"/>
+			<input type="button" onclick="draw_graph('handwriting_star',this)" value="五角星"/>
+		</div>
+			<!--颜色选择-->
+		<div id="color" class="color">
+            <input class="i1" type="button">
+            <input class="i2" type="button">
+            <input class="i3" type="button">
+            <input class="i4" type="button">
+            <input class="i5" type="button">
+            <input class="i6" type="button">
+            <input class="i7" type="button">
+            <input class="i8" type="button">
+            <input class="i9" type="button">
+            <input class="i10" type="button">
+            <input class="i11" type="button">
+			<input class="i12" type="button">
+        </div>
+        <div id="textColor1" class="textColor1">
+            <input class="i1" type="button">
+            <input class="i2" type="button">
+            <input class="i3" type="button">
+            <input class="i4" type="button">
+            <input class="i5" type="button">
+            <input class="i6" type="button">
+            <input class="i7" type="button">
+            <input class="i8" type="button">
+            <input class="i9" type="button">
+            <input class="i10" type="button">
+            <input class="i11" type="button">
+			<input class="i12" type="button">
+        </div>
+        <div id="textColor2" class="textColor2">
+            <input class="i1" type="button">
+            <input class="i2" type="button">
+            <input class="i3" type="button">
+            <input class="i4" type="button">
+            <input class="i5" type="button">
+            <input class="i6" type="button">
+            <input class="i7" type="button">
+            <input class="i8" type="button">
+            <input class="i9" type="button">
+            <input class="i10" type="button">
+			<input class="i11" type="button">
+			<input class="i12" type="button">
+        </div>
+     
+     
+			<!--线条粗细-->
+		<div id="line_size" class="border_nochoose" style="z-index:99">
+			<img src="img/line_size_1.png" onclick="chooseLineSize(1)" height="20px;" width="100px;"><br>
+			<img src="img/line_size_3.png" onclick="chooseLineSize(3)" height="20px;" width="100px;"><br>
+			<img src="img/line_size_5.png" onclick="chooseLineSize(5)" height="20px;" width="100px;"><br>
+			<img src="img/line_size_7.png" onclick="chooseLineSize(7)" height="20px;" width="100px;">
+		</div>
+<img id="imm" src="img/baoman/3.jpg" height="220" width="239" style="display:none"/>
+
+ <script type="text/javascript" src="js/filter.js"></script>
+ <script src="js/draw.js"></script>
+
+ 
+</body>
+</html>
